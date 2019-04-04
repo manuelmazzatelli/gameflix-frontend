@@ -1,24 +1,31 @@
 import _ from 'lodash';
 import $ from 'jquery';
+import css from './index.css';
+var template_card = require("./card.handlebars");
+var template_category = require("./category.handlebars");
 
 $.getJSON(
-  "http://192.168.50.110:8080/categories",
+  "http://192.168.50.110:8081/categories",
   function (data) {
     console.log(data)
     let container = $("#categorie-container");
-    for (let index = 0; index < data.slice(0, 13).length; index++) {
-      $('<li class="nav-item active"><a class="nav-link" href="#" data-id="' + data[index].id + '">' + data[index].name + '</a></li>')
+    data.forEach(function(d){
+      $(template_category(d))
         .appendTo(container)
         .click(function(e) {
           e.preventDefault();
           $.getJSON(
-            "http://192.168.50.110:8080/games?category="+$(this).find('a').data('id'),
-            function(data)  {
-              console.log (data)
+            "http://192.168.50.110:8081/games?category="+$(this).find('a').data('id'),
+            function(games)  {
+              console.log (games);
+              $('#game-container').empty();
+              games.forEach(function(game){
+                $('#game-container').append(template_card(game));
+              })
             }
           );
         })
-    }
+    });
   }
 );
 
