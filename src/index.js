@@ -8,7 +8,6 @@ const port = "8081";
 $.getJSON(
   "http://"+host+":"+port+"/categories",
   function (data) {
-    console.log(data)
     let container = $("#categorie-container");
     data.forEach(function(d){
       $(template_category(d))
@@ -18,7 +17,6 @@ $.getJSON(
           $.getJSON(
             "http://"+host+":"+port+"/games?category="+$(this).find('a').data('id'),
             function(games)  {
-              console.log (games);
               $('#game-container').empty();
               games.forEach(function(game){
                 $('#game-container').append(template_card(game));
