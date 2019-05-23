@@ -1,11 +1,12 @@
-import _ from 'lodash';
 import $ from 'jquery';
-import css from './index.css';
+import './index.css';
 var template_card = require("./card.handlebars");
 var template_category = require("./category.handlebars");
+const host = "localhost";
+const port = "8081";
 
 $.getJSON(
-  "http://192.168.50.110:8081/categories",
+  "http://"+host+":"+port+"/categories",
   function (data) {
     console.log(data)
     let container = $("#categorie-container");
@@ -15,7 +16,7 @@ $.getJSON(
         .click(function(e) {
           e.preventDefault();
           $.getJSON(
-            "http://192.168.50.110:8081/games?category="+$(this).find('a').data('id'),
+            "http://"+host+":"+port+"/games?category="+$(this).find('a').data('id'),
             function(games)  {
               console.log (games);
               $('#game-container').empty();
